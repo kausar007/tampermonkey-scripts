@@ -9,7 +9,6 @@
 // @run-at       context-menu
 // ==/UserScript==
 
-
 (function() {
     'use strict';
 
