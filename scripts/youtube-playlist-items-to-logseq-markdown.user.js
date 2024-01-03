@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Playlist Items to Logseq Markdown
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Super simple script to output links of Youtube playlist items to browser console. Run from browser's right click menu.
 // @author       kausar007
 // @match        https://www.youtube.com/playlist*
@@ -37,6 +37,7 @@
     var playlist = playlist_items[0];
     var items = playlist.getElementsByTagName(video_tag_name);
 
+    console.log(`Number of items: ${items.length}`);
     for (var index = 0; index < items.length; index++) {
         current_item = items[index];
         a = current_item.querySelector('#video-title');

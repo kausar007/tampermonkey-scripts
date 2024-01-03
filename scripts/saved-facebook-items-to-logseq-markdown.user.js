@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Saved Facebook Items to Logseq Markdown
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Super simple script to output links of saved Facebook items to browser console. Run from browser's right click menu.
 // @author       kausar007
 // @match        https://www.facebook.com/*
@@ -34,6 +34,7 @@
     // retrieve items
     var items = document.getElementsByClassName(saved_items_class_name);
 
+    console.log(`Number of items: ${items.length}`);
     for (var index = 0; index < items.length; index++) {
         current_item = items[index];
         a = current_item.getElementsByTagName('a');
