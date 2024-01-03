@@ -7,6 +7,7 @@
 // @match        https://www.facebook.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=facebook.com
 // @run-at       context-menu
+// @downloadURL  https://github.com/kausar007/tampermonkey-scripts/raw/main/scripts/saved-facebook-items-to-logseq-markdown.user.js
 // ==/UserScript==
 
 (function () {

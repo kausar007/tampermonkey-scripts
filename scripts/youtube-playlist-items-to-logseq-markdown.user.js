@@ -7,6 +7,7 @@
 // @match        https://www.youtube.com/playlist*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @run-at       context-menu
+// @downloadURL  https://github.com/kausar007/tampermonkey-scripts/raw/main/scripts/youtube-playlist-items-to-logseq-markdown.user.js
 // ==/UserScript==
 
 (function () {
