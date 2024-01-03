@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Playlist Items to Logseq Markdown
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  Super simple script to output links of Youtube playlist items to browser console. Run from browser's right click menu.
 // @author       kausar007
 // @match        https://www.youtube.com/playlist*
@@ -11,28 +11,41 @@
 
 (function () {
     'use strict';
+
+    // tag or class names
+    const video_list_tag_name = "ytd-playlist-video-list-renderer";
+    const video_tag_name = "ytd-playlist-video-renderer";
+
+    // date formatting and page name
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}${month}${day}`;
+    const char_filter = /[\\`*_{}[\]()#+\-.!]/g;
 
-    const page_name = `YouTube/Playlists/Watch Later/${formattedDate}`
+    const page_name = `YouTube/Playlists/Watch Later/${formattedDate}`;
 
-    var video_lists = document.getElementsByTagName("ytd-playlist-video-list-renderer")
-    var video_list = video_lists[0]
-    var videos = video_list.getElementsByTagName("ytd-playlist-video-renderer")
+    // variable declaration
+    var current_item;
+    var a;
+    var output = "";
 
-    var output = ""
-    console.log(`Page name: ${page_name}`);
-    for (var index = 0; index < videos.length; index++) {
-        var video = videos[index]
-        var a = video.querySelector('#video-title')
-        output += "- "
-        output += a.title
-        output += "\n"
-        output += "{{video " + a.href + "}}"
-        output += "\n"
+    // retrieve items
+    var playlist_items = document.getElementsByTagName(video_list_tag_name);
+    var playlist = playlist_items[0];
+    var items = playlist.getElementsByTagName(video_tag_name);
+
+    for (var index = 0; index < items.length; index++) {
+        current_item = items[index];
+        a = current_item.querySelector('#video-title');
+        output += "- ";
+        output += a.title.replace(char_filter, '');
+        output += "\n";
+        output += "{{video " + a.href + "}}";
+        output += "\n";
     }
-    console.log(output)
+    // output to console
+    console.log(`Page name: ${page_name}`);
+    console.log(output);
 })();
