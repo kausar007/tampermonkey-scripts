@@ -27,3 +27,20 @@ function download_text(text, filename) {
   blob_link.click();
   URL.revokeObjectURL(blob_url);
 }
+
+/**
+ * @param {string[]} urls - list of urls.
+ * @param {string[]} tags - list of tags.
+ */
+function get_hoarder_script(urls, tags) {
+  var text = `echo "Number of items: ${urls.length}"\n`;
+  var url;
+  for (var index = 0; index < urls.length; index++) {
+    url = urls[index];
+    text += `hoarder --api-key $API_KEY --server-addr $SERVER bookmarks add --link "${url}"`;
+    for (var tag in tags) {
+      text += ` --tag-name "${tag}"`;
+    }
+    text += `\necho ${index + 1}\n`;
+  }
+}
