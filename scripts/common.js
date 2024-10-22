@@ -43,4 +43,5 @@ function get_hoarder_script(urls, tags) {
     }
     text += `\necho ${index + 1}\n`;
   }
+  return text;
 }
