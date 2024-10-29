@@ -9,7 +9,7 @@ function get_dated_page_name(name, extension = ".txt") {
   const month = String(currentDate.getMonth() + 1).padStart(2, "0");
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}${month}${day}`;
-  const filename = `${name}${formattedDate}${extension}`;
+  const filename = `${name}-${formattedDate}${extension}`;
   return filename;
 }
 
@@ -34,14 +34,12 @@ function download_text(text, filename) {
  */
 function get_hoarder_script(urls, tags) {
   var text = `echo "Number of items: ${urls.length}"\n`;
-  var url;
-  for (var urls_index in urls) {
-    url = urls[urls_index];
+  for (const [index, url] of urls.entries()) {
     text += `hoarder --api-key $API_KEY --server-addr $SERVER bookmarks add --link "${url}"`;
-    for (var tag_index in tags) {
-      text += ` --tag-name "${tags[tag_index]}"`;
+    for (const tag of tags) {
+      text += ` --tag-name "${tag}"`;
     }
-    text += `\necho ${urls_index + 1}\n`;
+    text += `\necho ${index + 1}\n`;
   }
   return text;
 }
@@ -50,18 +48,23 @@ function get_hoarder_script(urls, tags) {
  * @param {string} class name of the main div elements
  * @returns {string[]} urls - list of urls
  */
-function retrieve_links_from_div(class_name) {
+function retrieve_links(name, type) {
   var urls = [];
 
+  var items, a, url;
+
   // retrieve items
-  var items = document.getElementsByClassName(class_name);
+  if (type == "class"){
+    items = document.getElementsByClassName(name);
+  } else if (type == "tag"){
+    items = document.getElementsByTagName(name);
+  } else {
+    console.log(`Unknown type: ${type}`)
+  }
 
-  // variable declaration
-  var current_item, a, url;
-
-  for (var index in items) {
-    current_item = items[index];
-    a = current_item.getElementsByTagName("a");
+  // retrieve urls
+  for (const item of items) {
+    a = item.getElementsByTagName("a");
     url = `${a[0].href}`;
     urls.push(url);
   }
